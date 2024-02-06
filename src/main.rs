@@ -11,7 +11,7 @@ fn main() {
         .locktime()
         .base_size()
         .coinbase()
-        .rbf()
+        .replace_by_fee()
         .nomalized()
         .segwit_id()
         .total_size()
@@ -80,7 +80,7 @@ impl TxDecoder {
         self
     }
 
-    pub fn rbf(&self) -> &Self {
+    pub fn replace_by_fee(&self) -> &Self {
         println!("Opted for RBF: {:?}", self.0.is_explicitly_rbf());
 
         self
@@ -124,7 +124,7 @@ mod correctness_test {
     use std::str::FromStr;
 
     #[test]
-    fn do_test() {
+    fn check_test() {
         let transaction_bytes =  hex_literal::hex!("020000000001010ccc140e766b5dbc884ea2d780c5e91e4eb77597ae64288a42575228b79e234900000000000000000002bd37060000000000225120245091249f4f29d30820e5f36e1e5d477dc3386144220bd6f35839e94de4b9cae81c00000000000016001416d31d7632aa17b3b316b813c0a3177f5b6150200140838a1f0f1ee607b54abf0a3f55792f6f8d09c3eb7a9fa46cd4976f2137ca2e3f4a901e314e1b827c3332d7e1865ffe1d7ff5f5d7576a9000f354487a09de44cd00000000");
 
         let decoded_tx = TxDecoder::new(&transaction_bytes);
@@ -135,7 +135,7 @@ mod correctness_test {
             .locktime()
             .base_size()
             .coinbase()
-            .rbf()
+            .replace_by_fee()
             .nomalized()
             .segwit_id()
             .total_size()
